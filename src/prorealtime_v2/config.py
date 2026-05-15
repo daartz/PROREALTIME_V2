@@ -25,6 +25,12 @@ class EmailConfig:
 
 
 @dataclass(frozen=True)
+class IbkrConfig:
+    gateway_url: str
+    account_id: str | None
+
+
+@dataclass(frozen=True)
 class Settings:
     root: Path
     data_dir: Path
@@ -33,6 +39,7 @@ class Settings:
     email: EmailConfig
     limits: TradingLimits
     trading_mode: str
+    ibkr: IbkrConfig
 
     @property
     def dry_run(self) -> bool:
@@ -69,5 +76,9 @@ def load_settings() -> Settings:
             user=os.getenv("SMTP_USER") or None,
             app_password=os.getenv("SMTP_APP_PASSWORD") or None,
             recipient=os.getenv("SMTP_TO") or None,
+        ),
+        ibkr=IbkrConfig(
+            gateway_url=os.getenv("IBKR_GATEWAY_URL", "https://localhost:5000/v1/api").rstrip("/"),
+            account_id=os.getenv("IBKR_ACCOUNT_ID") or None,
         ),
     )
