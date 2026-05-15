@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prorealtime-v2"
+version = "0.1.0"
+description = "PROREALTIME V2: moteur Hold/VAD, rapports et interface."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [{ name = "PROREALTIME" }]
+dependencies = [
+  "numpy>=1.24",
+  "pandas>=2.0",
+  "requests>=2.31",
+  "yfinance>=0.2",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.5",
+]
+
+[project.scripts]
+prorealtime-v2 = "prorealtime_v2.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+ignore = ["SIM114", "SIM102"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+pythonpath = ["src"]
